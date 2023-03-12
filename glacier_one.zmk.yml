@@ -1,0 +1,10 @@
+file_format: "1"
+id: glacier_one
+name: Glacier One
+type: shield
+url: https://github.com/LegoRocket/Glacier-One-Firm
+requires: [makerdiary_nrf52840_m2]
+features:
+  - keys
+  - backlight
+  - display

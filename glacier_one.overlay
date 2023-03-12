@@ -1,0 +1,50 @@
+#include "glacier_one.dtsi"
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,battery = &vbatt;
+        zmk,backlight = &backlight;
+        zephyr,display = &oled;
+    };
+
+    backlight: pwmleds {
+		compatible = "pwm-leds";
+		led_mosfet {
+			pwms = <&pwm0 25>;
+			label = "Backlight LED 0";
+		};
+	};
+
+    vbatt: vbatt {
+        compatible = "zmk,battery-voltage-divider";
+        label = "BATTERY";
+        io-channels = <&adc 3>;
+        output-ohms = <100000>;
+        full-ohms = <(100000 + 100000)>;
+    };
+
+    kscan0: kscan_0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        label = "KSCAN";
+        diode-direction = "col2row";
+
+        col-gpios
+            = <&gpio0 21 GPIO_ACTIVE_HIGH>
+            , <&gpio0 20 GPIO_ACTIVE_HIGH>
+            , <&gpio0 19 GPIO_ACTIVE_HIGH>
+            ;
+
+        row-gpios
+            = <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0 23 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+    };
+};
+
+&pwm0 {
+    status = "okay";
+    ch0-pin = <25>;
+    /* ch0-inverted; */
+};
+
